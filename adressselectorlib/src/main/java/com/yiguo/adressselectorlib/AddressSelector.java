@@ -286,7 +286,6 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         }
         public void resetState(){
             isSelected = false;
-            setTag(null);
             setText(getText());
         }
 
