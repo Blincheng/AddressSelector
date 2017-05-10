@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/Blincheng/AddressSelector.svg)](https://jitpack.io/#Blincheng/AddressSelector)
 #简介
 最近东西写的挺多的，这不又要弄一个类似于京东的地址选择器，然后刚开始我是不愿意自己去写的，这东西就是费时间，然后大致浏览了一会，发现真没有符合公司需求的，好吧，那就自己开撸。先看看效果图，不知道是不是大家想要的。然后京东是用在一个从下而上的弹窗里面的。
 ![这里写图片描述](http://img.blog.csdn.net/20170510182201975?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU4NjcxNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
