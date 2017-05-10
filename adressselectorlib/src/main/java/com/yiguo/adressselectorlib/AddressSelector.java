@@ -206,6 +206,7 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         }
         public void resetState(){
             isSelected = false;
+            setTag(null);
             setText(getText());
         }
     }
@@ -280,6 +281,7 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
                     if(onItemClickListener != null){
                         onItemClickListener.itemClick(AddressSelector.this,(CityInterface) v.getTag(),tabIndex);
                         tabs.get(tabIndex).setText(((CityInterface) v.getTag()).getCityName());
+                        tabs.get(tabIndex).setTag(v.getTag());
                         if(tabIndex+1 < tabs.size()){
                             tabIndex ++;
                             resetAllTabs(tabIndex);
