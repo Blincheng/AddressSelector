@@ -24,17 +24,35 @@ import java.util.ArrayList;
  */
 
 public class AddressSelector extends LinearLayout implements View.OnClickListener{
+    private int TextSelectedColor = Color.parseColor("#11B57C");
+    private int TextEmptyColor = Color.parseColor("#333333");
+    //顶部的tab集合
     private ArrayList<Tab> tabs;
-    private AddressAdapter adressAdapter;
+    //列表的适配器
+    private AddressAdapter addressAdapter;
     private ArrayList<CityInterface> cities;
     private OnItemClickListener onItemClickListener;
     private OnTabSelectedListener onTabSelectedListener;
     private RecyclerView list;
+    //tabs的外层layout
     private LinearLayout tabs_layout;
+    //会移动的横线布局
     private Line line;
     private Context mContext;
+    //总共tab的数量
     private int tabAmount = 3;
+    //当前tab的位置
     private int tabIndex = 0;
+    //分隔线
+    private View grayLine;
+    //列表文字大小
+    private int listTextSize = -1;
+    //列表文字颜色
+    private int listTextNormalColor = Color.parseColor("#333333");
+    //列表文字选中的颜色
+    private int listTextSelectedColor = Color.parseColor("#11B57C");
+    //列表icon资源
+    private int listItemIcon = -1;
     public AddressSelector(Context context) {
         super(context);
         init(context);
@@ -75,7 +93,7 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
                 LayoutParams.MATCH_PARENT,6));
         line.setSum(tabAmount);
         addView(line);
-        View grayLine = new View(mContext);
+        grayLine = new View(mContext);
         grayLine.setLayoutParams(new LayoutParams(
                 LayoutParams.MATCH_PARENT,2));
         grayLine.setBackgroundColor(mContext.getResources().getColor(R.color.line_DDDDDD));
@@ -87,13 +105,18 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         list.setLayoutManager(new LinearLayoutManager(mContext));
         addView(list);
     }
-    public Tab newTab(CharSequence text,boolean isSelected){
+    /**
+     * 得到一个新的tab对象
+     * */
+    private Tab newTab(CharSequence text,boolean isSelected){
         Tab tab = new Tab(mContext);
         tab.setLayoutParams(new LayoutParams(0,LayoutParams.WRAP_CONTENT,1));
         tab.setGravity(Gravity.CENTER);
         tab.setPadding(0,40,0,40);
         tab.setSelected(isSelected);
         tab.setText(text);
+        tab.setTextEmptyColor(TextEmptyColor);
+        tab.setTextSelectedColor(TextSelectedColor);
         tab.setOnClickListener(this);
         return tab;
     }
@@ -109,21 +132,28 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         else
             throw new RuntimeException("AddressSelector tabAmount can not less-than 2 !");
     }
-
+    /**
+     * 设置列表的点击事件回调接口
+     * */
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+    /**
+     * 设置列表的数据源，设置后立即生效
+     * */
     public void setCities(ArrayList cities) {
         if(cities == null)
             return;
         this.cities = cities;
-        if(adressAdapter == null){
-            adressAdapter = new AddressAdapter();
-            list.setAdapter(adressAdapter);
+        if(addressAdapter == null){
+            addressAdapter = new AddressAdapter();
+            list.setAdapter(addressAdapter);
         }
-        adressAdapter.notifyDataSetChanged();
+        addressAdapter.notifyDataSetChanged();
     }
-
+    /**
+     * 设置顶部tab的点击事件回调
+     * */
     public void setOnTabSelectedListener(OnTabSelectedListener onTabSelectedListener) {
         this.onTabSelectedListener = onTabSelectedListener;
     }
@@ -135,10 +165,11 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         if(tab.index > tabIndex)
             return;
         tabIndex = tab.index;
-        if(tab.isSelected&&onTabSelectedListener != null)
-            onTabSelectedListener.onTabReselected(AddressSelector.this,tab);
         if(onTabSelectedListener != null){
-            onTabSelectedListener.onTabSelected(AddressSelector.this,tab);
+            if(tab.isSelected)
+                onTabSelectedListener.onTabReselected(AddressSelector.this,tab);
+            else
+                onTabSelectedListener.onTabSelected(AddressSelector.this,tab);
         }
         resetAllTabs(tabIndex);
         line.setIndex(tabIndex);
@@ -154,6 +185,55 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
             }
         }
     }
+    /**
+     * 设置Tab文字选中的颜色
+     * */
+    public void setTextSelectedColor(int textSelectedColor) {
+        TextSelectedColor = textSelectedColor;
+    }
+    /**
+     * 设置Tab文字默认颜色
+     * */
+    public void setTextEmptyColor(int textEmptyColor) {
+        TextEmptyColor = textEmptyColor;
+    }
+    /**
+     * 设置Tab横线的颜色
+     * */
+    public void setLineColor(int lineColor) {
+        line.setSelectedColor(lineColor);
+    }
+    /**
+     * 设置tab下方分隔线的颜色
+     * */
+    public void setGrayLineColor(int grayLineColor) {
+        grayLine.setBackgroundColor(grayLineColor);
+    }
+    /**
+     * 设置列表文字大小
+     * */
+    public void setListTextSize(int listTextSize) {
+        this.listTextSize = listTextSize;
+    }
+    /**
+     * 设置列表文字颜色
+     * */
+    public void setListTextNormalColor(int listTextNormalColor) {
+        this.listTextNormalColor = listTextNormalColor;
+    }
+    /**
+     * 设置列表选中文字颜色
+     * */
+    public void setListTextSelectedColor(int listTextSelectedColor) {
+        this.listTextSelectedColor = listTextSelectedColor;
+    }
+    /**
+     * 设置列表icon资源
+     * */
+    public void setListItemIcon(int listItemIcon) {
+        this.listItemIcon = listItemIcon;
+    }
+
     /**
      * 标签控件
      * */
@@ -209,6 +289,14 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
             setTag(null);
             setText(getText());
         }
+
+        public void setTextSelectedColor(int textSelectedColor) {
+            TextSelectedColor = textSelectedColor;
+        }
+
+        public void setTextEmptyColor(int textEmptyColor) {
+            TextEmptyColor = textEmptyColor;
+        }
     }
     /**
      * 横线控件
@@ -254,6 +342,10 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
         public void setSum(int sum) {
             this.sum = sum;
         }
+
+        public void setSelectedColor(int selectedColor) {
+            SelectedColor = selectedColor;
+        }
     }
     private class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHolder>{
         @Override
@@ -266,12 +358,16 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
+            if(listItemIcon != -1)
+                holder.img.setImageResource(listItemIcon);
+            if(listTextSize != -1)
+                holder.tv.setTextSize(listTextSize);
             if(TextUtils.equals(tabs.get(tabIndex).getText(),cities.get(position).getCityName())){
                 holder.img.setVisibility(View.VISIBLE);
-                holder.tv.setTextColor(getResources().getColor(R.color.green_11B57C));
+                holder.tv.setTextColor(listTextSelectedColor);
             }else{
                 holder.img.setVisibility(View.INVISIBLE);
-                holder.tv.setTextColor(getResources().getColor(R.color.black_333333));
+                holder.tv.setTextColor(listTextNormalColor);
             }
             holder.tv.setText(cities.get(position).getCityName());
             holder.itemView.setTag(cities.get(position));
