@@ -29,7 +29,7 @@ allprojects {
 
 ```
 dependencies {
-            compile 'com.github.Blincheng:AddressSelector:v1.0.3'
+            compile 'com.github.Blincheng:AddressSelector:v1.0.4'
     }
 ```
 其余继承方式看：[https://jitpack.io/#Blincheng/AddressSelector](https://jitpack.io/#Blincheng/AddressSelector)
