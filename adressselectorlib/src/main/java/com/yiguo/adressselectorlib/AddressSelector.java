@@ -142,14 +142,18 @@ public class AddressSelector extends LinearLayout implements View.OnClickListene
      * 设置列表的数据源，设置后立即生效
      * */
     public void setCities(ArrayList cities) {
-        if(cities == null)
+        if(cities == null||cities.size() <= 0)
             return;
-        this.cities = cities;
-        if(addressAdapter == null){
-            addressAdapter = new AddressAdapter();
-            list.setAdapter(addressAdapter);
+        if(cities.get(0) instanceof CityInterface){
+            this.cities = cities;
+            if(addressAdapter == null){
+                addressAdapter = new AddressAdapter();
+                list.setAdapter(addressAdapter);
+            }
+            addressAdapter.notifyDataSetChanged();
+        }else{
+            throw new RuntimeException("AddressSelector cities must implements CityInterface");
         }
-        addressAdapter.notifyDataSetChanged();
     }
     /**
      * 设置顶部tab的点击事件回调
