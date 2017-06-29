@@ -1,4 +1,4 @@
-package com.yiguo.adressselectorlib;
+package com.mic.addressselectordemo;
 
 import org.junit.Test;
 

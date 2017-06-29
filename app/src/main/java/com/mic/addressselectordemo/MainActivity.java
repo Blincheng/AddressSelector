@@ -1,13 +1,13 @@
-package com.yiguo.addressselectordemo;
+package com.mic.addressselectordemo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.yiguo.adressselectorlib.AddressSelector;
-import com.yiguo.adressselectorlib.CityInterface;
-import com.yiguo.adressselectorlib.OnItemClickListener;
+import com.mic.adressselectorlib.AddressSelector;
+import com.mic.adressselectorlib.CityInterface;
+import com.mic.adressselectorlib.OnItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

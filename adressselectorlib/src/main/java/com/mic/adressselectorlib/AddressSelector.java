@@ -1,4 +1,4 @@
-package com.yiguo.adressselectorlib;
+package com.mic.adressselectorlib;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

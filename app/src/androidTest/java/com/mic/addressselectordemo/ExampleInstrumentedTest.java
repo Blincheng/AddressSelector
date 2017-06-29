@@ -1,4 +1,4 @@
-package com.yiguo.addressselectordemo;
+package com.mic.addressselectordemo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

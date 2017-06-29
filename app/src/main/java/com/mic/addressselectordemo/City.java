@@ -1,6 +1,6 @@
-package com.yiguo.addressselectordemo;
+package com.mic.addressselectordemo;
 
-import com.yiguo.adressselectorlib.CityInterface;
+import com.mic.adressselectorlib.CityInterface;
 
 /**
  * Author: Blincheng.
